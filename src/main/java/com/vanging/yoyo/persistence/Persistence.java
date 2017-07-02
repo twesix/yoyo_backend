@@ -16,17 +16,33 @@ public class Persistence
 {
     private static String configFile = "mybatis.config.xml";
     private static SqlSessionFactory sqlSessionFactory;
-    public static void config()
+
+    static
     {
         try
         {
-            InputStream inputStream = Resources.getResourceAsStream(configFile);
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            developmentConfig();
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
+    }
+    public static void developmentConfig() throws Exception
+    {
+        InputStream inputStream = Resources.getResourceAsStream(configFile);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "development");
+    }
+
+    public static void productionConfig() throws Exception
+    {
+        InputStream inputStream = Resources.getResourceAsStream(configFile);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "production");
+    }
+
+    public static SqlSession getSqlSession()
+    {
+        return sqlSessionFactory.openSession();
     }
 }
 

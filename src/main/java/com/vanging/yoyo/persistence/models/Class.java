@@ -8,6 +8,7 @@ public class Class
     private String class_releaser;
     private String class_name;
     private Date class_date;
+    private int class_length;
 
     public String getClass_id() {
         return class_id;
@@ -39,5 +40,13 @@ public class Class
 
     public void setClass_date(Date class_date) {
         this.class_date = class_date;
+    }
+
+    public int getClass_length() {
+        return class_length;
+    }
+
+    public void setClass_length(int class_length) {
+        this.class_length = class_length;
     }
 }
