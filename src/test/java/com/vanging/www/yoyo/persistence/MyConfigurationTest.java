@@ -1,4 +1,4 @@
-package com.vanging.yoyo.persistence;
+package com.vanging.www.yoyo.persistence;
 
 import org.junit.After;
 import org.junit.Before;

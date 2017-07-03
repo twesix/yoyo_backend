@@ -1,4 +1,4 @@
-group 'com.vanging'
+group 'com.vanging.www'
 version '2017.0.0'
 
 apply plugin: 'java'

@@ -1,7 +1,7 @@
-package com.vanging.yoyo.persistence.mappers;
+package com.vanging.www.yoyo.persistence.mappers;
 
-import com.vanging.yoyo.persistence.Persistence;
-import com.vanging.yoyo.persistence.models.Note;
+import com.vanging.www.yoyo.persistence.Persistence;
+import com.vanging.www.yoyo.persistence.models.Note;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.Before;
