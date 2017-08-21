@@ -10,31 +10,4 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
-
-    <filter>
-        <filter-name>response_header</filter-name>
-        <filter-class>com.vanging.www.yoyo.restful.filter.ResponseHeader</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>response_header</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>encoding</filter-name>
-        <filter-class>com.vanging.www.yoyo.restful.filter.Encoding</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>encoding</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <servlet>
-        <servlet-name>/</servlet-name>
-        <servlet-class>com.vanging.www.yoyo.restful.servlet.Index</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>/</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
 </web-app>

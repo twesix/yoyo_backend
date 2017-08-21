@@ -1,9 +1,11 @@
 package com.vanging.www.yoyo.restful.filter;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@WebFilter("/*")
 public class Encoding implements Filter
 {
     public void destroy()
