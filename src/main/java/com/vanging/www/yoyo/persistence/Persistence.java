@@ -21,6 +21,7 @@ public class Persistence
     {
         try
         {
+            org.apache.ibatis.logging.LogFactory.useLog4JLogging();
             developmentConfig();
         }
         catch(Exception e)
