@@ -1,4 +1,4 @@
-package com.vanging.www.yoyo.persistence.models;
+package com.vanging.www.yoyo.persistence.entity;
 
 public class Note
 {

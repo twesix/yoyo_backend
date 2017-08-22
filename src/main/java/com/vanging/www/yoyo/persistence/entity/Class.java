@@ -1,4 +1,4 @@
-package com.vanging.www.yoyo.persistence.models;
+package com.vanging.www.yoyo.persistence.entity;
 
 import java.sql.Date;
 
@@ -8,7 +8,7 @@ public class Class
     private String class_releaser;
     private String class_name;
     private Date class_date;
-    private int class_length;
+    private String class_location;
 
     public String getClass_id() {
         return class_id;
@@ -42,11 +42,11 @@ public class Class
         this.class_date = class_date;
     }
 
-    public int getClass_length() {
-        return class_length;
+    public String getClass_location() {
+        return class_location;
     }
 
-    public void setClass_length(int class_length) {
-        this.class_length = class_length;
+    public void setClass_location(String class_location) {
+        this.class_location = class_location;
     }
 }

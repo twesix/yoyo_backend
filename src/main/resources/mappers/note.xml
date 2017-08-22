@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vanging.www.yoyo.persistence.mappers.NoteMapper">
-    <select id="findById" resultType="com.vanging.www.yoyo.persistence.models.Note" parameterType="String">
-        select * from note where note_id = #{note_id}
-    </select>
-</mapper>

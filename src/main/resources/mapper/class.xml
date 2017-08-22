@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vanging.www.yoyo.persistence.mapper.ClassMapper">
+
+    <select id="selectById" resultType="com.vanging.www.yoyo.persistence.entity.Class">
+        select
+            *
+        from
+            class
+        where
+            class_id = #{class_id}
+    </select>
+
+    <insert id="insert" parameterType="com.vanging.www.yoyo.persistence.entity.Class">
+        insert into `class`
+        (`class_id`, `class_name`, `class_location`, `class_releaser`, `class_date`)
+        values
+        (#{class_id},#{class_name},#{class_location},#{class_releaser}, now());
+    </insert>
+</mapper>

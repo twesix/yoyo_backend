@@ -22,7 +22,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mappers/class.xml"/>
-        <mapper resource="mappers/note.xml"/>
+        <mapper resource="mapper/class.xml"/>
+        <mapper resource="mapper/note.xml"/>
     </mappers>
 </configuration>
