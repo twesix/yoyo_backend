@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test ReleaseClass</title>
+    <style>
+        *
+        {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<form action="//localhost:8080/releaseClass" method="post" enctype="multipart/form-data">
+    <label for="name">name:</label>
+    <input id="name" name="name" value="name">
+    <br>
+    <label for="releaser">releaser:</label>
+    <input id="releaser" name="releaser" value="releaser">
+    <br>
+    <label for="location">location:</label>
+    <input id="location" name="location" value="location">
+    <br>
+    <label for="file">file:</label>
+    <input type="file" id="file" name="file">
+    <br>
+    <button>send</button>
+</form>
+</body>
+</html>

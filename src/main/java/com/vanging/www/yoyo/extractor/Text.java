@@ -1,50 +1,54 @@
 package com.vanging.www.yoyo.extractor;
 
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
 import org.apache.poi.xslf.usermodel.XSLFSlideShow;
-import org.apache.xmlbeans.XmlException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class Text
 {
     public static String extract(File f)
     {
-        String text = "";
         try
         {
             if(f.getName().matches(".*\\.ppt$"))
             {
-                System.out.println("正在提取文字 ： " + f.getName());
-                PowerPointExtractor ppt = new PowerPointExtractor(new FileInputStream(f));
-                text = ppt.getText();
-                return text;
+                return extractPPT(f);
             }
             if(f.getName().matches(".*\\.pptx$"))
             {
-                System.out.println("正在提取文字 ： " + f.getName());
-                XSLFPowerPointExtractor ppt = new XSLFPowerPointExtractor(new XSLFSlideShow(f.getAbsolutePath()));
-                text = ppt.getText();
-                return text;
+                return extractPPTX(f);
             }
+            return null;
         }
-        catch(IOException e)
+        catch(Exception e)
         {
             e.printStackTrace();
-            return "error";
+            return null;
         }
-        catch (XmlException e)
-        {
-            e.printStackTrace();
-        }
-        catch (OpenXML4JException e)
-        {
-            e.printStackTrace();
-        }
+    }
+
+    public static String extractPPT(File f) throws Exception
+    {
+        String text = "";
+
+        System.out.println("正在提取文字 ： " + f.getName());
+        PowerPointExtractor ppt = new PowerPointExtractor(new FileInputStream(f));
+        text = ppt.getText();
+
+        return text;
+    }
+
+    public static String extractPPTX(File f) throws Exception
+    {
+        String text = "";
+
+        System.out.println("正在提取文字 ： " + f.getName());
+        XSLFPowerPointExtractor ppt = new XSLFPowerPointExtractor(new XSLFSlideShow(f.getAbsolutePath()));
+        text = ppt.getText();
+
         return text;
     }
 }

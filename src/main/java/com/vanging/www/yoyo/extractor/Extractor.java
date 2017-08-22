@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Extractor
 {
-    public static boolean extract(String cid, String file, boolean development) throws IOException
+    public static boolean extract(String cid, String fileAbsolutePath, boolean development) throws IOException
     {
         String rootDirPath;
         if( ! development)
@@ -36,9 +36,14 @@ public class Extractor
         String textType = "\"type\":\"text\"";
         String imgType = "\"type\":\"img\"";
 
-        File pptFile = new File(file);
+        File pptFile = new File(fileAbsolutePath);
 
-        List pictureNames = Image.extract(pptFile,classDirPath);
+        List pictureNames = Image.extract(pptFile,classDirPath);;
+        if(pictureNames == null)
+        {
+            DeleteDirectory.deleteDir(classDir);
+            return false;
+        }
         for(Object picture : pictureNames)
         {
             jsonText += "{";
@@ -51,7 +56,7 @@ public class Extractor
         String text = Text.extract(pptFile);
         for(String line : text.split("(\\r|\\n)+"))
         {
-            if(!line.matches("\\s*"))
+            if( ! line.matches("\\s*"))
             {
                 jsonText += "{";
                 jsonText += textType;
@@ -69,5 +74,45 @@ public class Extractor
         fw.close();
 
         return true;
+    }
+}
+class DeleteDirectory
+{
+    public static boolean deleteDir(File dir)
+    {
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            if(children != null)
+            {
+                //递归删除目录中的子目录下所有文件
+                for (int i=0; i<children.length; i++)
+                {
+                    boolean success = deleteDir(new File(dir, children[i]));
+                    if(!success)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
+    }
+    /**
+     *测试
+     */
+    public static void main(String[] args)
+    {
+        String newDir2 = "I:\\大创项目\\web\\classes\\ppt";
+        boolean success = deleteDir(new File(newDir2));
+        if(success)
+        {
+            System.out.println("Successfully deleted populated directory: " + newDir2);
+        }
+        else
+        {
+            System.out.println("Failed to delete populated directory: " + newDir2);
+        }
     }
 }
