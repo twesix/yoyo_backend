@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vanging.www.yoyo.persistence.mapper.ProfileMapper">
+
+    <select id="selectLocation" parameterType="String" resultType="String">
+        select
+            `user_location`
+        from
+            `profile`
+        where user_id = #{user_id}
+    </select>
+
+    <insert id="insertLocation" parameterType="com.vanging.www.yoyo.persistence.entity.Profile">
+        insert into
+            `profile`
+            (`user_id`, `user_location`)
+        values
+            (#{user_id}, #{user_location});
+    </insert>
+
+    <update id="updateLocation" parameterType="com.vanging.www.yoyo.persistence.entity.Profile">
+        update
+            `profile`
+        set
+            `user_location` = #{user_location}
+        where
+            `user_id` = #{user_id}
+    </update>
+
+</mapper>

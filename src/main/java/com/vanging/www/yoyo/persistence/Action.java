@@ -3,10 +3,13 @@ package com.vanging.www.yoyo.persistence;
 import com.vanging.www.yoyo.extractor.Extractor;
 import com.vanging.www.yoyo.persistence.entity.Class;
 import com.vanging.www.yoyo.persistence.entity.Note;
+import com.vanging.www.yoyo.persistence.entity.Profile;
 import com.vanging.www.yoyo.persistence.mapper.ClassMapper;
 import com.vanging.www.yoyo.persistence.mapper.NoteMapper;
+import com.vanging.www.yoyo.persistence.mapper.ProfileMapper;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Action
@@ -27,13 +30,12 @@ public class Action
     {
         if(NoteAction.selectByCidAndUid(note.getClass_id(), note.getUser_id()) == null)
         {
-            NoteAction.insert(note);
+            return NoteAction.insert(note);
         }
         else
         {
-            NoteAction.update(note);
+            return NoteAction.update(note);
         }
-        return true;
     }
 
     // deleteNote
@@ -53,6 +55,27 @@ public class Action
         return ClassAction.selectById(class_id);
     }
 
+    public static String selectLocation(String user_id)
+    {
+        return ProfileAction.selectLocation(user_id);
+    }
+
+    public static boolean updateLocation(Profile profile)
+    {
+        if(ProfileAction.selectLocation(profile.getUser_id()) == null)
+        {
+            return ProfileAction.insertLocation(profile);
+        }
+        else
+        {
+            return ProfileAction.updateLocation(profile);
+        }
+    }
+
+    public static List selectNotes(String user_id)
+    {
+        return NoteAction.selectByUid(user_id);
+    }
 }
 
 class NoteAction
@@ -67,6 +90,18 @@ class NoteAction
         sqlSession.close();
 
         return note;
+    }
+
+    public static List selectByUid(String user_id)
+    {
+        SqlSession sqlSession = Persistence.getSqlSession();
+        NoteMapper mapper = sqlSession.getMapper(NoteMapper.class);
+
+        List notes = mapper.selectByUid(user_id);
+
+        sqlSession.close();
+
+        return notes;
     }
 
     public static Note selectByCidAndUid(String note_id, String user_id)
@@ -176,6 +211,62 @@ class ClassAction
         try
         {
             mapper.insert(_class);
+            sqlSession.commit();
+            sqlSession.close();
+            return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            sqlSession.rollback();
+            sqlSession.close();
+            return false;
+        }
+    }
+}
+
+class ProfileAction
+{
+    public static String selectLocation(String user_id)
+    {
+        SqlSession sqlSession = Persistence.getSqlSession();
+        ProfileMapper mapper = sqlSession.getMapper(ProfileMapper.class);
+
+        String location = mapper.selectLocation(user_id);
+
+        sqlSession.close();
+        return location;
+    }
+
+    public static boolean insertLocation(Profile profile)
+    {
+        SqlSession sqlSession = Persistence.getSqlSession();
+        ProfileMapper mapper = sqlSession.getMapper(ProfileMapper.class);
+
+        try
+        {
+            mapper.insertLocation(profile);
+            sqlSession.commit();
+            sqlSession.close();
+            return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            sqlSession.rollback();
+            sqlSession.close();
+            return false;
+        }
+    }
+
+    public static boolean updateLocation(Profile profile)
+    {
+        SqlSession sqlSession = Persistence.getSqlSession();
+        ProfileMapper mapper = sqlSession.getMapper(ProfileMapper.class);
+
+        try
+        {
+            mapper.updateLocation(profile);
             sqlSession.commit();
             sqlSession.close();
             return true;

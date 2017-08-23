@@ -24,5 +24,6 @@
     <mappers>
         <mapper resource="mapper/class.xml"/>
         <mapper resource="mapper/note.xml"/>
+        <mapper resource="mapper/profile.xml"/>
     </mappers>
 </configuration>
