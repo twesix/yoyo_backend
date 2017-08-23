@@ -26,9 +26,10 @@
     </select>
 
     <insert id="insert" parameterType="com.vanging.www.yoyo.persistence.entity.Class">
-        insert into `class`
-        (`class_id`, `class_name`, `class_location`, `class_releaser`, `class_date`)
+        insert into
+            `class`
+            (`class_id`, `class_name`, `class_location`, `class_releaser`, `class_date`)
         values
-        (#{class_id},#{class_name},#{class_location},#{class_releaser}, now());
+            (#{class_id}, #{class_name}, #{class_location}, #{class_releaser}, now());
     </insert>
 </mapper>

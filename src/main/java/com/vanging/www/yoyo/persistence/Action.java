@@ -87,6 +87,11 @@ public class Action
     {
         return ClassAction.selectByKeyWord(key_word);
     }
+
+    public static boolean insertClass(Class _class)
+    {
+        return ClassAction.insert(_class);
+    }
 }
 
 class NoteAction

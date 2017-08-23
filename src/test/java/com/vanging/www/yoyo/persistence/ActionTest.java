@@ -2,6 +2,7 @@ package com.vanging.www.yoyo.persistence;
 
 import com.alibaba.fastjson.JSON;
 import com.vanging.www.yoyo.persistence.entity.Note;
+import com.vanging.www.yoyo.persistence.entity.Class;
 import com.vanging.www.yoyo.persistence.entity.Profile;
 import org.junit.Assert;
 import org.junit.Test;
@@ -82,8 +83,18 @@ public class ActionTest
     }
 
     @Test
-    public void addClass() throws Exception
+    public void insertClass() throws Exception
     {
+        boolean success;
+        Class _class = new Class();
+
+        _class.setClass_id("class_id_" + Math.random());
+        _class.setClass_name("class_name_" + Math.random());
+        _class.setClass_releaser("class_releaser_" + Math.random());
+        _class.setClass_location("class_location_" + Math.random());
+
+        success = Action.insertClass(_class);
+        Assert.assertTrue(success);
     }
 
     @Test
