@@ -6,6 +6,7 @@ import com.vanging.www.yoyo.persistence.entity.Profile;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -65,6 +66,8 @@ public class ActionTest
     @Test
     public void getStatistics() throws Exception
     {
+        HashMap result = Action.getStatistics("class_id");
+        System.out.println(JSON.toJSONString(result));
     }
 
     @Test

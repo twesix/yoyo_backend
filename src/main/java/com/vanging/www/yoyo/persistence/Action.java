@@ -9,6 +9,7 @@ import com.vanging.www.yoyo.persistence.mapper.NoteMapper;
 import com.vanging.www.yoyo.persistence.mapper.ProfileMapper;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,20 +77,43 @@ public class Action
     {
         return NoteAction.selectByUid(user_id);
     }
+
+    public static HashMap getStatistics(String class_id)
+    {
+        return NoteAction.getStatistics(class_id);
+    }
 }
 
 class NoteAction
 {
-    public static Note selectByNid(String note_id)
+    public static HashMap getStatistics(String class_id)
     {
         SqlSession sqlSession = Persistence.getSqlSession();
         NoteMapper mapper = sqlSession.getMapper(NoteMapper.class);
 
-        Note note = mapper.selectByNid(note_id);
+        List notes = mapper.selectByCid(class_id);
 
         sqlSession.close();
 
-        return note;
+        HashMap result = new HashMap();
+
+        for(Object note : notes)
+        {
+            String content[] = ((Note) note).getNote_content().split(",");
+            for(String s : content)
+            {
+                if(result.get(s) == null)
+                {
+                    result.put(s, 1);
+                }
+                else
+                {
+                    result.put(s, (int)result.get(s) + 1);
+                }
+            }
+        }
+
+        return result;
     }
 
     public static List selectByUid(String user_id)

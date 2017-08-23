@@ -12,13 +12,13 @@
             ( #{note_id}, #{user_id}, #{class_id}, #{note_content} );
     </insert>
 
-    <select id="selectByNid" resultType="com.vanging.www.yoyo.persistence.entity.Note">
+    <select id="selectByCid" resultType="com.vanging.www.yoyo.persistence.entity.Note">
         select
             *
         from
             `note`
         where
-            `note_id` = #{note_id}
+            `class_id` = #{class_id}
     </select>
 
     <select id="selectByCidAndUid" resultType="com.vanging.www.yoyo.persistence.entity.Note">
