@@ -13,6 +13,18 @@
             class_id = #{class_id}
     </select>
 
+    <select id="selectByKeyWord" resultType="com.vanging.www.yoyo.persistence.entity.Class" parameterType="String">
+        select
+            *
+        from `class`
+        where
+            `class_name` like '%${key_word}%'
+            or
+            `class_location` like '%${key_word}%'
+            or
+            `class_releaser` like '%${key_word}%' ;
+    </select>
+
     <insert id="insert" parameterType="com.vanging.www.yoyo.persistence.entity.Class">
         insert into `class`
         (`class_id`, `class_name`, `class_location`, `class_releaser`, `class_date`)

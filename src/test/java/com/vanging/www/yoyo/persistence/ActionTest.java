@@ -41,7 +41,7 @@ public class ActionTest
     @Test
     public void selectClass() throws Exception
     {
-        Action.selectClass("class_id_" + Math.random());
+        Action.selectClassByCid("class_id_" + Math.random());
     }
 
     @Test
@@ -73,6 +73,12 @@ public class ActionTest
     @Test
     public void queryClass() throws Exception
     {
+        List result = Action.selectClassByKeyWord("class_location");
+        System.out.println(JSON.toJSONString(result));
+        result = Action.selectClassByKeyWord("class_name");
+        System.out.println(JSON.toJSONString(result));
+        result = Action.selectClassByKeyWord("class_releaser");
+        System.out.println(JSON.toJSONString(result));
     }
 
     @Test

@@ -51,7 +51,7 @@ public class Action
     }
 
     // getClass
-    public static Class selectClass(String class_id)
+    public static Class selectClassByCid(String class_id)
     {
         return ClassAction.selectById(class_id);
     }
@@ -81,6 +81,11 @@ public class Action
     public static HashMap getStatistics(String class_id)
     {
         return NoteAction.getStatistics(class_id);
+    }
+
+    public static List selectClassByKeyWord(String key_word)
+    {
+        return ClassAction.selectByKeyWord(key_word);
     }
 }
 
@@ -225,6 +230,17 @@ class ClassAction
 
         sqlSession.close();
         return _class;
+    }
+
+    public static List selectByKeyWord(String key_word)
+    {
+        SqlSession sqlSession = Persistence.getSqlSession();
+        ClassMapper mapper = sqlSession.getMapper(ClassMapper.class);
+
+        List classes = mapper.selectByKeyWord(key_word);
+
+        sqlSession.close();
+        return classes;
     }
 
     public static boolean insert(Class _class)
