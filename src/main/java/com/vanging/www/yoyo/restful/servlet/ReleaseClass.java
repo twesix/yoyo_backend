@@ -2,6 +2,8 @@ package com.vanging.www.yoyo.restful.servlet;
 
 import com.alibaba.fastjson.JSON;
 import com.vanging.www.yoyo.extractor.Extractor;
+import com.vanging.www.yoyo.persistence.Action;
+import com.vanging.www.yoyo.persistence.entity.Class;
 import com.vanging.www.yoyo.restful.response.Response;
 
 import javax.servlet.ServletException;
@@ -26,19 +28,19 @@ public class ReleaseClass extends HttpServlet
         boolean development = true;
         Response finalResponse = new Response();
 
-        String name = request.getParameter("name");
-        String releaser = request.getParameter("releaser");
-        String location = request.getParameter("location");
+        String class_name = request.getParameter("class_name");
+        String class_releaser = request.getParameter("class_releaser");
+        String class_location = request.getParameter("class_location");
 
-        Part file = request.getPart("file");
+        Part class_file = request.getPart("class_file");
 
-        if(name == null || location == null || releaser == null || file == null)
+        if(class_name == null || class_location == null || class_releaser == null || class_file == null)
         {
             finalResponse.setStatus("param_wrong");
         }
         else
         {
-            String header = file.getHeader("content-disposition");
+            String header = class_file.getHeader("content-disposition");
             String filename = header.substring(header.indexOf("filename=") + 10, header.length() - 1);
 
             System.out.println(filename);
@@ -49,8 +51,7 @@ public class ReleaseClass extends HttpServlet
             }
             else
             {
-                InputStream is = file.getInputStream();
-                String cid = UUID.randomUUID().toString().toLowerCase();
+                String class_id = UUID.randomUUID().toString().toLowerCase();
 
                 String rootDirPath;
                 if( ! development)
@@ -65,8 +66,8 @@ public class ReleaseClass extends HttpServlet
                 String uploadFilePath = rootDirPath + File.separator + filename;
                 File uploadFile = new File(uploadFilePath);
 
-                InputStream inputStream = file.getInputStream();
-                FileOutputStream outputStream = new FileOutputStream(new File(uploadFilePath));
+                InputStream inputStream = class_file.getInputStream();
+                FileOutputStream outputStream = new FileOutputStream(uploadFile);
                 int len = -1;
                 byte[] bytes = new byte[1024];
                 while ((len = inputStream.read(bytes)) != -1)
@@ -76,12 +77,24 @@ public class ReleaseClass extends HttpServlet
 
                 outputStream.close();
                 inputStream.close();
-                file.delete();
+                class_file.delete();
 
-                boolean success = Extractor.extract(cid, uploadFilePath, development);
+                boolean success = Extractor.extract(class_id, uploadFilePath, development);
                 if(success)
                 {
-                    finalResponse.setStatus("ok");
+                    Class _class = new Class();
+                    _class.setClass_id(class_id);
+                    _class.setClass_location(class_location);
+                    _class.setClass_name(class_name);
+                    _class.setClass_releaser(class_releaser);
+                    if(Action.insertClass(_class))
+                    {
+                        finalResponse.setStatus("ok");
+                    }
+                    else
+                    {
+                        finalResponse.setStatus("db_error");
+                    }
                 }
                 else
                 {
@@ -93,48 +106,5 @@ public class ReleaseClass extends HttpServlet
         }
 
         JSON.writeJSONString(response.getWriter(), finalResponse);
-    }
-}
-
-class UploadUtils
-{
-    /**
-     * 根据文件的路径获取文件真实名称
-     *
-     * @param path
-     *            文件的路径
-     * @return 文件名称
-     */
-    public static String getRealName(String path)
-    {
-        int index = path.lastIndexOf("\\");
-
-        if (index == -1)
-        {
-            index = path.lastIndexOf("/");
-        }
-
-        return path.substring(index + 1);
-    }
-
-    /**
-     * 根据文件名返回一个目录
-     *
-     * @param name
-     *            文件名称
-     * @return 目录
-     */
-    public static String getDir(String name)
-    {
-        int i = name.hashCode();
-        String hex = Integer.toHexString(i);
-        int j = hex.length();
-
-        for (int k = 0; k < 8 - j; k++)
-        {
-            hex = "0" + hex;
-        }
-
-        return "/" + hex.charAt(0) + "/" + hex.charAt(1);
     }
 }
