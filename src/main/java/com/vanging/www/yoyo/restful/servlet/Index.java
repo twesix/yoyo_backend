@@ -17,17 +17,8 @@ public class Index extends HttpServlet
     {
         Response finalResponse = new Response();
 
-        String param = request.getParameter("param");
-        String param1 = request.getParameter("param1");
-
-        if(param == null || param1 == null)
-        {
-            finalResponse.setStatus("param_wrong");
-        }
-        else
-        {
-
-        }
+        finalResponse.setStatus("ok");
+        finalResponse.setMessage("it works");
 
         JSON.writeJSONString(response.getWriter(), finalResponse);
     }
