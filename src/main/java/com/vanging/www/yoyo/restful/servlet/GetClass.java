@@ -27,16 +27,8 @@ public class GetClass extends HttpServlet
         }
         else
         {
-            Class _class = Action.selectClassByCid(class_id);
-            if(_class != null)
-            {
-                finalResponse.setStatus("ok");
-                finalResponse.setMessage(_class);
-            }
-            else
-            {
-                finalResponse.setStatus("class_id_not_exist");
-            }
+            finalResponse.setMessage(Action.selectClassByCid(class_id));
+            finalResponse.setStatus("ok");
         }
 
         JSON.writeJSONString(response.getWriter(), finalResponse);
