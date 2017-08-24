@@ -69,6 +69,8 @@ public class Extractor
         jsonText = jsonText.substring(0,jsonText.length()-1);
         jsonText += "]";
 
+        jsonText = jsonText.replace("\\", "/");
+
         FileWriter fw = new FileWriter(jsonFile);
         fw.write(jsonText);
         fw.close();

@@ -25,7 +25,7 @@ public class ReleaseClass extends HttpServlet
 {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        boolean development = true;
+        boolean development = false;
         Response finalResponse = new Response();
 
         String class_name = request.getParameter("class_name");
@@ -42,8 +42,6 @@ public class ReleaseClass extends HttpServlet
         {
             String header = class_file.getHeader("content-disposition");
             String filename = header.substring(header.indexOf("filename=") + 10, header.length() - 1);
-
-            System.out.println(filename);
 
             if( ! filename.matches(".*\\.ppt$") &&  ! filename.matches(".*\\.pptx$"))
             {
@@ -64,6 +62,8 @@ public class ReleaseClass extends HttpServlet
                 }
 
                 String uploadFilePath = rootDirPath + File.separator + filename;
+
+                System.out.println(uploadFilePath);
                 File uploadFile = new File(uploadFilePath);
 
                 InputStream inputStream = class_file.getInputStream();
@@ -79,7 +79,16 @@ public class ReleaseClass extends HttpServlet
                 inputStream.close();
                 class_file.delete();
 
-                boolean success = Extractor.extract(class_id, uploadFilePath, development);
+                boolean success;
+                try
+                {
+                    success = Extractor.extract(class_id, uploadFilePath, development);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    success = false;
+                }
                 if(success)
                 {
                     Class _class = new Class();
