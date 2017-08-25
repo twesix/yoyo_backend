@@ -1,8 +1,10 @@
 package com.vanging.www.yoyo.extractor;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import com.alibaba.fastjson.JSON;
+import jdk.nashorn.internal.runtime.regexp.RegExp;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Extractor
@@ -32,9 +34,7 @@ public class Extractor
 
         File jsonFile = new File(classDirPath + File.separator + "index.json");
 
-        String jsonText = "[";
-        String textType = "\"type\":\"text\"";
-        String imgType = "\"type\":\"img\"";
+        List<Item> jsonObject = new ArrayList<Item>();
 
         File pptFile = new File(fileAbsolutePath);
 
@@ -46,11 +46,10 @@ public class Extractor
         }
         for(Object picture : pictureNames)
         {
-            jsonText += "{";
-            jsonText += imgType;
-            jsonText += ",\"url\":\"";
-            jsonText += picture.toString();
-            jsonText += "\"},";
+            Item item = new Item();
+            item.setType("img");
+            item.setContent(picture.toString());
+            jsonObject.add(item);
         }
 
         String text = Text.extract(pptFile);
@@ -58,22 +57,27 @@ public class Extractor
         {
             if( ! line.matches("\\s*"))
             {
-                jsonText += "{";
-                jsonText += textType;
-                jsonText += ",\"content\":\"";
-                jsonText += line;
-                jsonText += "\"},";
+                // 去掉特殊字符，否则json解析会失败
+//                line = line.replace("\\r", "");
+//                line = line.replace("\\n", "");
+//                line = line.replace("\"", "*");
+//                line = line.replace("\\'", "*");
+
+                Item item = new Item();
+                item.setType("text");
+                item.setContent(line.toString());
+                jsonObject.add(item);
+
             }
         }
 
-        jsonText = jsonText.substring(0,jsonText.length()-1);
-        jsonText += "]";
+        String jsonText = JSON.toJSONString(jsonObject);
+        System.out.println(jsonText);
 
-        jsonText = jsonText.replace("\\", "/");
-
-        FileWriter fw = new FileWriter(jsonFile);
-        fw.write(jsonText);
-        fw.close();
+        FileOutputStream fos = new FileOutputStream(jsonFile);
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"));
+        JSON.writeJSONString(writer, jsonObject);
+        fos.close();
 
         return true;
     }
@@ -116,5 +120,27 @@ class DeleteDirectory
         {
             System.out.println("Failed to delete populated directory: " + newDir2);
         }
+    }
+}
+
+class Item
+{
+    private String type;
+    private String content;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
